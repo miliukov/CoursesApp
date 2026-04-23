@@ -7,7 +7,7 @@ interface CourseRepository {
 
     suspend fun getCourses(): Result<List<Course>>
 
-    suspend fun getFavourites(): Flow<List<Course>>
+    fun getFavourites(): Flow<List<Course>>
 
     suspend fun addToFavourites(course: Course): Result<Unit>
 
