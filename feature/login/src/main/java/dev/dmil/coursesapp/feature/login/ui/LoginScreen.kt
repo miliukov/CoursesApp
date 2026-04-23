@@ -18,8 +18,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.dmil.coursesapp.core.R
 import androidx.core.net.toUri
+import dev.dmil.coursesapp.feature.login.R
 
 @Composable
 fun LoginScreen(

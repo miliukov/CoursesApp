@@ -15,12 +15,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.dmil.coursesapp.R
+import dev.dmil.coursesapp.core.ui.theme.Green
+import dev.dmil.coursesapp.core.ui.theme.White
 import dev.dmil.coursesapp.feature.account.ui.AccountScreen
 import dev.dmil.coursesapp.feature.favorites.ui.FavouritesScreen
 import dev.dmil.coursesapp.feature.home.ui.HomeScreen
 import dev.dmil.coursesapp.navigation.Screen
-import dev.dmil.coursesapp.ui.theme.Green
-import dev.dmil.coursesapp.ui.theme.White
 
 @Composable
 fun MainScreen() {
@@ -30,7 +30,7 @@ fun MainScreen() {
 
     Scaffold(
         bottomBar = {
-            NavigationBar() {
+            NavigationBar {
                 NavigationBarItem(
                     selected = currentDestination?.destination?.route == Screen.Home.route,
                     onClick = { navController.navigate(Screen.Home.route) },
@@ -53,7 +53,7 @@ fun MainScreen() {
                     onClick = { navController.navigate(Screen.Favourites.route) },
                     icon = {
                         Icon(
-                            painter = painterResource(R.drawable.favourites),
+                            painter = painterResource(dev.dmil.coursesapp.core.R.drawable.favourites),
                             contentDescription = "Favourites Icon",
                             tint = if (currentDestination?.destination?.route == Screen.Favourites.route) Green else White
                         )
