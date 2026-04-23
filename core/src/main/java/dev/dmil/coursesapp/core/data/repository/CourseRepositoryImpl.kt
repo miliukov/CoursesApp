@@ -8,8 +8,9 @@ import dev.dmil.coursesapp.core.domain.model.Course
 import dev.dmil.coursesapp.core.domain.repository.CourseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class CourseRepositoryImpl(
+class CourseRepositoryImpl @Inject constructor(
     private val api: CourseApi,
     private val dao: CourseDao
 ): CourseRepository {
