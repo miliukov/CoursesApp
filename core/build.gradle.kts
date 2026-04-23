@@ -42,4 +42,5 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }
