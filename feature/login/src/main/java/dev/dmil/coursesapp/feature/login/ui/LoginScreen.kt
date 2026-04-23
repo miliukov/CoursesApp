@@ -1,7 +1,6 @@
 package dev.dmil.coursesapp.feature.login.ui
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.KeyboardOptions
@@ -23,7 +22,10 @@ import dev.dmil.coursesapp.core.R
 import androidx.core.net.toUri
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
+fun LoginScreen(
+    viewModel: LoginViewModel = hiltViewModel(),
+    onLoginSuccess: () -> Unit,
+) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isButtonEnabled by viewModel.isButtonEnabled.collectAsStateWithLifecycle()
@@ -32,19 +34,19 @@ fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
         uiState = uiState,
         onEmailChanged = viewModel::onEmailChanged,
         onPasswordChanged = viewModel::onPasswordChanged,
-        onLoginClick = {  },
-        isButtonEnabled = isButtonEnabled
+        onLoginClick = { onLoginSuccess() },
+        isButtonEnabled = isButtonEnabled,
     )
 
 }
 
 @Composable
-fun LoginContent(
+private fun LoginContent(
     uiState: LoginUiState,
     onEmailChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     onLoginClick: () -> Unit,
-    isButtonEnabled: Boolean
+    isButtonEnabled: Boolean,
 ) {
 
     val context = LocalContext.current
