@@ -1,4 +1,4 @@
-package dev.dmil.coursesapp.feature.home.ui
+package dev.dmil.coursesapp.core.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -23,23 +23,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.dmil.coursesapp.core.R
 import dev.dmil.coursesapp.core.domain.model.Course
+import dev.dmil.coursesapp.core.ui.theme.DarkGrey
 import dev.dmil.coursesapp.core.ui.theme.Green
 import dev.dmil.coursesapp.core.ui.theme.White
-import dev.dmil.coursesapp.feature.home.R
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun CourseCard(course: Course) {
+fun CourseCard(
+    course: Course,
+    onFavouriteClick: () -> Unit
+) {
 
     val images = listOf(R.drawable.course_image_3, R.drawable.course_image_1, R.drawable.course_image_2)
     val imageRes = images[course.id % images.size]
@@ -68,7 +70,7 @@ fun CourseCard(course: Course) {
                 ) {
                     Surface(
                         shape = RoundedCornerShape(16.dp),
-                        color = DarkGray.copy(alpha = 0.6f)
+                        color = DarkGrey.copy(alpha = 0.6f)
                     ) {
                         Row(
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
@@ -89,7 +91,7 @@ fun CourseCard(course: Course) {
                     }
                     Surface(
                         shape = RoundedCornerShape(16.dp),
-                        color = DarkGray.copy(alpha = 0.6f)
+                        color = DarkGrey.copy(alpha = 0.6f)
                     ) {
                         Text(
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
@@ -101,13 +103,17 @@ fun CourseCard(course: Course) {
                 }
                 Surface(
                     shape = CircleShape,
-                    color = DarkGray.copy(alpha = 0.6f),
+                    color = DarkGrey.copy(alpha = 0.6f),
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(8.dp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { onFavouriteClick() }
                 ) {
                     Icon(
-                        painter = painterResource(dev.dmil.coursesapp.core.R.drawable.favourites),
+                        painter = painterResource(R.drawable.favourites),
                         contentDescription = "Bookmark",
                         tint = if (course.hasLike) Green else White,
                         modifier = Modifier.padding(6.dp).size(20.dp)
@@ -159,23 +165,6 @@ fun CourseCard(course: Course) {
             Spacer(modifier = Modifier.height(15.dp))
         }
     }
-}
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun CourseCardPreview() {
-    CourseCard(
-        Course(
-            id = 1,
-            title = "Hello",
-            text = "Text",
-            price = "999.9",
-            rate = "4.8",
-            startDate = "2024-01-21",
-            hasLike = false,
-            publishDate = "2024-01-20"
-        )
-    )
 }
 
 fun formatDate(dateString: String): String {

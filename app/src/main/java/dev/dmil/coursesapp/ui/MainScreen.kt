@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -33,7 +34,7 @@ fun MainScreen() {
             NavigationBar {
                 NavigationBarItem(
                     selected = currentDestination?.destination?.route == Screen.Home.route,
-                    onClick = { navController.navigate(Screen.Home.route) },
+                    onClick = { navController.navigateToTab(Screen.Home.route) },
                     icon = {
                         Icon(
                             painter = painterResource(R.drawable.home),
@@ -50,7 +51,7 @@ fun MainScreen() {
                 )
                 NavigationBarItem(
                     selected = currentDestination?.destination?.route == Screen.Favourites.route,
-                    onClick = { navController.navigate(Screen.Favourites.route) },
+                    onClick = { navController.navigateToTab(Screen.Favourites.route) },
                     icon = {
                         Icon(
                             painter = painterResource(dev.dmil.coursesapp.core.R.drawable.favourites),
@@ -67,7 +68,7 @@ fun MainScreen() {
                 )
                 NavigationBarItem(
                     selected = currentDestination?.destination?.route == Screen.Account.route,
-                    onClick = { navController.navigate(Screen.Account.route) },
+                    onClick = { navController.navigateToTab(Screen.Account.route) },
                     icon = {
                         Icon(
                             painter = painterResource(R.drawable.account),
@@ -103,4 +104,14 @@ fun MainScreen() {
         }
     }
 
+}
+
+fun NavController.navigateToTab(route: String) {
+    navigate(route) {
+        popUpTo(graph.startDestinationId) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
 }

@@ -7,6 +7,7 @@ import dev.dmil.coursesapp.core.data.remote.CourseApi
 import dev.dmil.coursesapp.core.domain.model.Course
 import dev.dmil.coursesapp.core.domain.repository.CourseRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -17,7 +18,10 @@ class CourseRepositoryImpl @Inject constructor(
 
     override suspend fun getCourses(): Result<List<Course>> {
         return runCatching {
-            api.getCourses().courses.map { it.toDomain() }
+            val favouriteIds = dao.getFavourites().first().map { it.id }.toSet()
+            api.getCourses().courses.map { dto ->
+                dto.toDomain().copy(hasLike = dto.id in favouriteIds)
+            }
         }
     }
 
