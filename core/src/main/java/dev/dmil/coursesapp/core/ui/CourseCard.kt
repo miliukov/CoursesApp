@@ -113,7 +113,7 @@ fun CourseCard(
                         ) { onFavouriteClick() }
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.favourites),
+                        painter = painterResource(if (course.hasLike) R.drawable.favourite_filled else R.drawable.favourites),
                         contentDescription = "Bookmark",
                         tint = if (course.hasLike) Green else White,
                         modifier = Modifier.padding(6.dp).size(20.dp)

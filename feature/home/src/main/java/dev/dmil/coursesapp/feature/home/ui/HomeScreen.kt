@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -47,8 +49,8 @@ fun HomeScreen(
 
     HomeContent(
         uiState = uiState,
-        viewModel::toggleSort,
-        viewModel::toggleFavourite
+        onSortClick = viewModel::toggleSort,
+        toggleFavourite = viewModel::toggleFavourite
     )
 
 }
@@ -59,87 +61,94 @@ private fun HomeContent(
     onSortClick: () -> Unit,
     toggleFavourite: (Course) -> Unit
 ) {
-
-    LazyColumn(
-        modifier = Modifier.padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {  },
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(50.dp),
-                    enabled = false,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        disabledBorderColor = Color.Transparent,
-                        disabledContainerColor = DarkGrey
-                    ),
-                    leadingIcon = {
+    if (uiState.isLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(color = Green)
+        }
+    } else {
+        LazyColumn(
+            modifier = Modifier.padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    OutlinedTextField(
+                        value = "",
+                        onValueChange = {  },
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(50.dp),
+                        enabled = false,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            disabledBorderColor = Color.Transparent,
+                            disabledContainerColor = DarkGrey
+                        ),
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(R.drawable.search),
+                                contentDescription = "Search Icon",
+                                modifier = Modifier.padding(start = 5.dp),
+                                tint = White
+                            )
+                        },
+                        placeholder = {
+                            Text(
+                                text = "Search courses...",
+                                fontWeight = FontWeight(400),
+                                color = White.copy(alpha = 0.5f)
+                            )
+                        }
+                    )
+                    IconButton(
+                        onClick = { },
+                        modifier = Modifier
+                            .size(56.dp)
+                            .background(MaterialTheme.colorScheme.surface, CircleShape)
+                    ) {
                         Icon(
-                            painter = painterResource(R.drawable.search),
-                            contentDescription = "Search Icon",
-                            modifier = Modifier.padding(start = 5.dp),
-                            tint = White
-                        )
-                    },
-                    placeholder = {
-                        Text(
-                            text = "Search courses...",
-                            fontWeight = FontWeight(400),
-                            color = White.copy(alpha = 0.5f)
+                            painter = painterResource(R.drawable.filter),
+                            contentDescription = "Filter Icon"
                         )
                     }
-                )
-                IconButton(
-                    onClick = { },
-                    modifier = Modifier
-                        .size(56.dp)
-                        .background(MaterialTheme.colorScheme.surface, CircleShape)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.filter),
-                        contentDescription = "Filter Icon"
-                    )
                 }
-            }
 
-        }
-        item {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier.clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) { onSortClick() }
-                        .align(Alignment.CenterEnd),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = "По дате добавления",
-                        fontSize = 14.sp,
-                        color = Green,
-                        fontWeight = FontWeight(500)
-                    )
-                    Icon(
-                        painter = painterResource(R.drawable.sort_arrows),
-                        contentDescription = "Sort Icon",
-                        tint = Green
-                    )
+            }
+            item {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier.clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { onSortClick() }
+                            .align(Alignment.CenterEnd),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text(
+                            text = "По дате добавления",
+                            fontSize = 14.sp,
+                            color = Green,
+                            fontWeight = FontWeight(500)
+                        )
+                        Icon(
+                            painter = painterResource(R.drawable.sort_arrows),
+                            contentDescription = "Sort Icon",
+                            tint = Green
+                        )
+                    }
                 }
             }
-        }
-        items(uiState.courses) { course ->
-            CourseCard(
-                course,
-                onFavouriteClick = { toggleFavourite(course) }
-            )
+            items(uiState.courses) { course ->
+                CourseCard(
+                    course,
+                    onFavouriteClick = { toggleFavourite(course) }
+                )
+            }
         }
     }
-
 }
