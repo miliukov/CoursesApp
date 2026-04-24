@@ -33,7 +33,8 @@ class LoginViewModel @Inject constructor(): ViewModel() {
         )
 
     fun onEmailChanged(newValue: String) {
-        _uiState.value = _uiState.value.copy(email = newValue)
+        val filtered = newValue.filter { it !in 'а'..'я' && it !in 'А'..'Я' && it != 'ё' && it != 'Ё' }
+        _uiState.value = _uiState.value.copy(email = filtered)
     }
 
     fun onPasswordChanged(newValue: String) {

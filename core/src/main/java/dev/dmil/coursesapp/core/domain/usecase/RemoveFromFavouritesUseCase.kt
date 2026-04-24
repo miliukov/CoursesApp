@@ -1,4 +1,4 @@
-package dev.dmil.coursesapp.feature.home.domain.usecase
+package dev.dmil.coursesapp.core.domain.usecase
 
 import dev.dmil.coursesapp.core.domain.repository.CourseRepository
 import javax.inject.Inject

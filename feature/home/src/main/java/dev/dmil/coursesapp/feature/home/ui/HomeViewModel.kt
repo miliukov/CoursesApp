@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.dmil.coursesapp.core.domain.model.Course
+import dev.dmil.coursesapp.core.domain.usecase.RemoveFromFavouritesUseCase
 import dev.dmil.coursesapp.feature.home.domain.usecase.AddToFavouritesUseCase
 import dev.dmil.coursesapp.feature.home.domain.usecase.GetCoursesUseCase
-import dev.dmil.coursesapp.feature.home.domain.usecase.RemoveFromFavouritesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 data class HomeUiState(
     val courses: List<Course> = emptyList(),
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
     val error: String? = null,
     val isSorted: Boolean = false
 )

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.dmil.coursesapp.core.domain.model.Course
 import dev.dmil.coursesapp.feature.favorites.domain.usecase.GetFavouritesUseCase
-import dev.dmil.coursesapp.feature.favorites.domain.usecase.RemoveFromFavouritesUseCase
+import dev.dmil.coursesapp.core.domain.usecase.RemoveFromFavouritesUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn

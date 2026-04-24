@@ -34,8 +34,7 @@ import dev.dmil.coursesapp.core.domain.model.Course
 import dev.dmil.coursesapp.core.ui.theme.DarkGrey
 import dev.dmil.coursesapp.core.ui.theme.Green
 import dev.dmil.coursesapp.core.ui.theme.White
-import java.text.SimpleDateFormat
-import java.util.Locale
+import dev.dmil.coursesapp.core.utils.formatDate
 
 @Composable
 fun CourseCard(
@@ -165,11 +164,4 @@ fun CourseCard(
             Spacer(modifier = Modifier.height(15.dp))
         }
     }
-}
-
-fun formatDate(dateString: String): String {
-    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale("ru"))
-    val date = inputFormat.parse(dateString)
-    return outputFormat.format(date ?: return dateString)
 }
