@@ -1,57 +1,58 @@
 # CoursesApp
 
-Тестовый проект — приложение для просмотра и сохранения IT-курсов.
+A test project for browsing and saving IT courses.
 
-## Стек технологий
+## Tech Stack
 
 - **Kotlin**
 - **Jetpack Compose** — UI
 - **Hilt** — dependency injection
-- **Retrofit + Gson** — работа с сетью
-- **Room** — локальная база данных (избранное)
-- **Coroutines + Flow** — асинхронность
-- **Jetpack Navigation Component** — навигация
+- **Retrofit + Gson** — networking
+- **Room** — local database for favorites
+- **Coroutines + Flow** — asynchronous operations
+- **Jetpack Navigation Component** — navigation
 - **MVVM + Clean Architecture**
-- **Многомодульность**
+- **Multi-module architecture**
 
-## Архитектура
+## Architecture
 
-Проект разбит на 6 модулей:
+The project is split into 6 modules:
 
+```text
+:app                — entry point, navigation, bottom bar
+:core               — networking (Retrofit), database (Room), domain models, repository, shared UI components
+:feature:login      — login screen
+:feature:home       — main screen with the course list
+:feature:favorites  — favorites screen
+:feature:account    — account screen (placeholder)
 ```
-:app                — точка входа, навигация, bottom bar
-:core               — сеть (Retrofit), БД (Room), доменные модели, репозиторий, общие UI компоненты
-:feature:login      — экран входа
-:feature:home       — главный экран со списком курсов
-:feature:favorites  — экран избранного
-:feature:account    — экран аккаунта (заглушка)
-```
 
-Зависимости идут только вниз: `feature → core`, `app → feature`. Feature модули не знают друг о друге.
+Dependencies go only downward: `feature → core`, `app → feature`. Feature modules do not depend on each other.
 
-Внутри каждого модуля соблюдается Clean Architecture:
-- **data** — DTO, Entity, маппер, реализация репозитория
-- **domain** — доменные модели, интерфейс репозитория, UseCases
-- **ui** — Screen, ViewModel, UiState
+Each module follows Clean Architecture:
 
-## Функциональность
+- **data** — DTOs, entities, mappers, repository implementation
+- **domain** — domain models, repository interface, use cases
+- **ui** — screen, ViewModel, UI state
 
-### Вход
-- Валидация email по маске `текст@текст.текст`
-- Кириллица в поле email заблокирована
-- Кнопка входа активна только при корректно заполненных полях
-- Кнопки ВК и Одноклассники открывают браузер
+## Features
 
-### Главный экран
-- Загрузка курсов из API
-- Сортировка по убыванию даты публикации
-- Добавление/удаление курса из избранного с сохранением в Room
-- Описание курса обрезается до 2 строк
-- Индикатор загрузки
+### Login
+- Email validation using the `text@text.text` pattern
+- Cyrillic characters are blocked in the email field
+- The login button is enabled only when all fields are valid
+- VK and Odnoklassniki buttons open in the browser
 
-### Избранное
-- Список сохранённых курсов из Room
-- Обновляется реактивно через Flow — без дополнительных запросов
+### Home
+- Loads courses from the API
+- Sorts courses by publication date in descending order
+- Adds and removes courses from favorites, with data persisted in Room
+- Truncates course descriptions to 2 lines
+- Shows a loading indicator
 
-### Аккаунт
-- Экран-заглушка
+### Favorites
+- Displays saved courses from Room
+- Updates reactively through Flow, without extra network requests
+
+### Account
+- Placeholder screen
